@@ -1,0 +1,53 @@
+graph={}
+
+def llenar():
+  
+    nodo_conexiones=[]
+
+    n=int(input("Digite la cantidad de nodos  "))
+    for i in range(n):
+        valor=input("Digite el nombre del nodo en mayuscula "+str(i)+str("    "))
+        nodo=valor
+        rpta=int(input("Desea agregar nodo de caminos 1.-SI 2.-NO   "))
+        if(rpta==1):
+            estado=True
+            while(estado==True):
+                print(("Digite el nombre del nodo en mayuscula   "))
+                nodo_unir=input()
+                nodo_conexiones.append(nodo_unir)
+                print(nodo_conexiones)
+                rpta=int(input("Desea agregar nodo de caminos 1.-SI 2.-NO  " ))
+                if(rpta==1):
+                    estado=True
+                else:
+                    estado=False
+
+        else:
+            print("No agrega nodos")
+
+        graph.update({nodo: set(nodo_conexiones)})
+        nodo_conexiones.clear()
+        print(graph)
+
+
+# Return all graphs from start to goal
+def dfs_paths(graph, start, goal):
+    # Define stack variable
+    stack = [[start]]
+    # Do the process while there are paths to follow
+    while stack:
+        path = stack.pop()
+        node = path[-1]
+        for next in graph[node] - set(path):
+            # If a correct path is founded, then return the path with the generator
+            # else write a new path and follow iterating.
+            if next == goal:
+                yield path + [next]
+            else:
+                stack.append(path + [next])
+
+# Print paths
+llenar()
+vi=input("Digite el nodo inicial del recorrido    ")
+vf=input("Digite el nodo final del recorrido    ")
+print (list(dfs_paths(graph, vi, vf)))
